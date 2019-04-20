@@ -2,31 +2,30 @@ ARG IMAGE_VERSION=latest
 FROM fedora:$IMAGE_VERSION
 LABEL maintainer="DECENT"
 
+# register Bintray repository
+RUN curl https://bintray.com/user/downloadSubjectPublicKey?username=decentfoundation -o /etc/pki/rpm-gpg/RPM-GPG-KEY-decentfoundation && \
+    curl https://docs.decent.ch/assets/bintray-decentfoundation.repo -o /etc/yum.repos.d/bintray-decentfoundation.repo
+
 # prerequisites
-RUN dnf install -y cryptopp wget procps && dnf clean all
-
-# PBC
-ARG PBC_VERSION=0.5.14
-RUN export FEDORA=`rpm -E "%{fedora}"` && export ARCH=`rpm -E "%{_arch}"` && \
-    wget -nv -P /tmp https://github.com/DECENTfoundation/pbc/releases/download/$PBC_VERSION/libpbc-$PBC_VERSION-1.fc$FEDORA.$ARCH.rpm && \
-    rpm -i /tmp/libpbc-$PBC_VERSION-* && rm /tmp/libpbc-$PBC_VERSION-*
-
-# prepare directories
-ENV DCORE_HOME=/root
-ENV DCORE_USER=root
-USER $DCORE_USER
-WORKDIR $DCORE_HOME
+RUN dnf install -y cryptopp libpbc less procps && dnf clean all
 
 # DCore
 ARG DCORE_VERSION
-COPY DCore-$DCORE_VERSION-1.fc*.rpm /tmp
+COPY DCore-$DCORE_VERSION-1.fc*.rpm /tmp/
 RUN export FEDORA=`rpm -E "%{fedora}"` && \
     export ARCH=`rpm -E "%{_arch}"` && \
     rpm -i /tmp/DCore-$DCORE_VERSION-1.fc$FEDORA.$ARCH.rpm && \
-    rm /tmp/DCore-$DCORE_VERSION-1.fc*.rpm && \
-    mkdir $DCORE_HOME/.decent
+    rm /tmp/DCore-$DCORE_VERSION-1.fc*.rpm
 
-EXPOSE 40000 8090 5001
+EXPOSE 40000 8090
+
+ENV DCORE_USER=dcore
+ENV DCORE_HOME=/home/dcore
+RUN if [ $DCORE_USER != "root" ]; then useradd --home-dir $DCORE_HOME --create-home $DCORE_USER; fi
+
+USER $DCORE_USER
+WORKDIR $DCORE_HOME
+RUN mkdir $DCORE_HOME/.decent
 
 ENV DCORE_EXTRA_ARGS=""
 ENV DCORE_DATA_DIR=$DCORE_HOME"/.decent/data"

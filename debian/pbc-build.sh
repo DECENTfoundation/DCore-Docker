@@ -9,6 +9,22 @@ if [ $# -lt 2 ]; then GIT_REV=$PBC_VERSION; else GIT_REV=$2; fi
 
 echo "Building PBC $PBC_VERSION (git revision $GIT_REV) for $PRETTY_NAME"
 
+apt-get update
+apt-get install -y --no-install-recommends \
+    build-essential \
+    autotools-dev \
+    automake \
+    autoconf \
+    libtool \
+    make \
+    cmake \
+    gcc \
+    flex \
+    bison \
+    git \
+    libgmp-dev \
+    ca-certificates
+
 # build PBC
 git clone --single-branch --branch $GIT_REV https://github.com/DECENTfoundation/pbc.git
 cd pbc
@@ -67,10 +83,10 @@ echo " designed to be the backbone of implementations of pairing-based cryptosys
 echo " thus speed and portability are important goals. It provides routines such as" >> libpbc-dev/DEBIAN/control
 echo " elliptic curve generation, elliptic curve arithmetic and pairing computation." >> libpbc-dev/DEBIAN/control
 
-dpkg-deb --build libpbc dcore-deb
-dpkg-deb --build libpbc-dev dcore-deb
+dpkg-deb --build libpbc packages
+dpkg-deb --build libpbc-dev packages
 
-mv dcore-deb/libpbc_${PBC_VERSION}_amd64.deb dcore-deb/libpbc_${PBC_VERSION}-debian${VERSION_ID}_amd64.deb
-mv dcore-deb/libpbc-dev_${PBC_VERSION}_amd64.deb dcore-deb/libpbc-dev_${PBC_VERSION}-debian${VERSION_ID}_amd64.deb
+mv packages/libpbc_${PBC_VERSION}_amd64.deb packages/libpbc_${PBC_VERSION}-debian${VERSION_ID}_amd64.deb
+mv packages/libpbc-dev_${PBC_VERSION}_amd64.deb packages/libpbc-dev_${PBC_VERSION}-debian${VERSION_ID}_amd64.deb
 
 rm -rf libpbc*

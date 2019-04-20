@@ -5,10 +5,7 @@
 PBC_VERSION=$2
 if [ $# -lt 3 ]; then GIT_REV=$2; else GIT_REV=$3; fi
 
-BASEDIR=$(dirname "$0")
-echo "Building PBC $PBC_VERSION (git revision $GIT_REV) for Fedora $1"
-
-docker run -it -w /root --rm --name fedora.build.$1 \
+docker run -it -w /root --rm --name fedora.pbc.$1 \
     --mount type=bind,src=$PWD/packages,dst=/root/rpmbuild/RPMS/x86_64 \
     --mount type=bind,src=$PWD/fedora,dst=/root/fedora,readonly \
-    decent/fedora/build:$1 rpmbuild -bb -D "pbc_version $PBC_VERSION" -D "git_revision $GIT_REV" $BASEDIR/libpbc.spec
+    fedora:$1 fedora/pbc-build.sh $PBC_VERSION $GIT_REV

@@ -5,28 +5,28 @@ Release: 1%{?dist}
 License: GPLv3
 Summary: Fast, powerful and cost-efficient blockchain
 Source0: https://github.com/DECENTfoundation/DECENT-Network/archive/%{version}.tar.gz
-Requires: libpbc = %{pbc_version}, openssl-libs >= 1.1, cryptopp >= 6.1, readline >= 7.0, ncurses-libs >= 6.1, libcurl, gmp, zlib
+Requires: openssl-libs >= 1.1, cryptopp >= 6.1, readline >= 7.0, ncurses-libs >= 6.1, libcurl, libpbc, gmp, zlib
 
 %{?systemd_requires}
-BuildRequires: systemd, boost-devel >= 1.65.1
+BuildRequires: systemd, json-devel, boost-devel >= 1.65.1
 
 %description
 DCore is the blockchain you can easily build on. As the world’s first blockchain
 designed for digital content, media and entertainment, it provides user-friendly
 software development kits (SDKs) that empower developers and businesses to build
-decentralized applications for real-world use cases. DCore packed-full of
+decentralized applications for real-world use cases. DCore is packed-full of
 customizable features making it the ideal blockchain for any size project.
 
 %package GUI
 Summary: Fast, powerful and cost-efficient blockchain - GUI client
-Requires: libpbc = %{pbc_version}, qt5-qtbase >= 5.11, openssl-libs >= 1.1, cryptopp >= 6.1, readline >= 7.0, ncurses-libs >= 6.1, libcurl, gmp, zlib
+Requires: qt5-qtbase >= 5.11, openssl-libs >= 1.1, cryptopp >= 6.1, readline >= 7.0, ncurses-libs >= 6.1, libcurl, libpbc, gmp, zlib
 BuildRequires: qt5-qtbase-devel >= 5.11, qt5-linguist >= 5.11
 
 %description GUI
 DCore is the blockchain you can easily build on. As the world’s first blockchain
 designed for digital content, media and entertainment, it provides user-friendly
 software development kits (SDKs) that empower developers and businesses to build
-decentralized applications for real-world use cases. DCore packed-full of
+decentralized applications for real-world use cases. DCore is packed-full of
 customizable features making it the ideal blockchain for any size project.
 
 %prep
@@ -35,9 +35,8 @@ cd DECENT-Network
 git submodule update --init --recursive
 
 %build
-mkdir DECENT-Network/build
-cd DECENT-Network/build
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%{_builddir}/DCore ..
+cd DECENT-Network
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=%{build_type} -DCMAKE_INSTALL_PREFIX=%{_builddir}/DCore .
 make -j$(nproc) install
 
 %install
@@ -65,5 +64,8 @@ rm -rf %{buildroot}
 
 %preun
 %systemd_preun %{name}.service
+
+%postun
+%systemd_postun_with_restart %{name}.service
 
 %changelog
