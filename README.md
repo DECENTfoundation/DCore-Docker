@@ -117,9 +117,9 @@ Examples:
 
 ## DCore runtime image
 
-If you have DCore deb or rpm packages ready you can build the runtime image. There is a helper script which requires three mandatory arguments (base OS image name and version, DCore version) and one optional argument (packages directory - defaults to packages subdirectory).
+If you have DCore deb or rpm packages ready you can build the runtime image. There is a helper script which requires three mandatory arguments (base OS image name and version, DCore version) and two optional arguments (image tag - defaults to DCore version, packages directory - defaults to packages subdirectory).
 
-> Usage: ./build_runtime.sh base_image image_version dcore_version [packages_dir]
+> Usage: ./build_runtime.sh base_image image_version dcore_version [image_tag] [packages_dir]
 
 Naming convention for images: `dcore.` prefix and append base image name, e.g. `dcore.ubuntu`. You must specify DCore installation package version in `DCORE_VERSION` build argument. Optionally you can specify the OS layer image version using the `IMAGE_VERSION` build argument.
 

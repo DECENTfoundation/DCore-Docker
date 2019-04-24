@@ -18,6 +18,7 @@ RUN . /etc/os-release && apt-get update && \
        libssl1.1 \
        libcurl4 \
        curl \
+       gnupg \
        apt-transport-https \
        ca-certificates; \
     else apt-get install -y --no-install-recommends \
