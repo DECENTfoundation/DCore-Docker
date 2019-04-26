@@ -41,13 +41,13 @@ WORKDIR /root
 RUN . /etc/os-release && \
     if [ "$VERSION_ID" = "16.04" ]; then \
        wget -nv https://sourceforge.net/projects/boost/files/boost/1.65.1/boost_1_65_1.tar.gz && \
-       tar xvf boost_1_65_1.tar.gz && \
+       tar xf boost_1_65_1.tar.gz && \
        cd boost_1_65_1 && \
        ./bootstrap.sh --prefix=../boost && \
        ./b2 install && \
        cd .. && \
        wget -nv https://cmake.org/files/v3.13/cmake-3.13.4.tar.gz && \
-       tar xvf cmake-3.13.4.tar.gz && \
+       tar xf cmake-3.13.4.tar.gz && \
        cd cmake-3.13.4 && \
        export CMAKE_ROOT=$(realpath ../cmake) && \
        ./configure --prefix=$CMAKE_ROOT && \
@@ -56,13 +56,13 @@ RUN . /etc/os-release && \
        cd .. && \
        rm -rf boost_1_65_1* cmake-3.13.4*; \
     fi && \
-    wget -nv https://github.com/nlohmann/json/archive/v3.5.0.tar.gz && \
-    tar xvf v3.5.0.tar.gz && \
-    cd json-3.5.0 && \
+    wget -nv https://github.com/nlohmann/json/archive/v3.6.1.tar.gz && \
+    tar xf v3.6.1.tar.gz && \
+    cd json-3.6.1 && \
     cmake . && \
     make install && \
     cd .. && \
-    rm -rf json-3.5.0 v3.5.0.tar.gz && \
+    rm -rf json-3.6.1 v3.6.1.tar.gz && \
     mkdir packages
 
 CMD ["/bin/bash"]
