@@ -31,6 +31,7 @@ RUN dnf install -y \
        libpbc-devel \
        libcurl-devel \
        json-devel \
+       zlib-devel \
        boost-devel \
        boost-static && \
     dnf clean all
