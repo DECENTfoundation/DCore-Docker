@@ -13,7 +13,7 @@ if [ $# -lt 5 ]; then GNUPG_DIR="$HOME/.gnupg"; else GNUPG_DIR=$5; fi
 DEB_ABS_PATH=$(realpath $DEB_FILE)
 DEB_FILE_NAME=$(basename $DEB_FILE)
 
-docker run -it -w /root --rm --name $BASE_IMAGE.build.$IMAGE_VERSION \
+docker run -w /root --rm --name $BASE_IMAGE.build.$IMAGE_VERSION \
     --mount type=bind,src=$GNUPG_DIR,dst=/root/.gnupg \
     --mount type=bind,src=$DEB_ABS_PATH,dst=/root/$DEB_FILE_NAME \
     dcore.$BASE_IMAGE.build:$IMAGE_VERSION dpkg-sig -s builder -k "$GPG_KEY_ID" $DEB_FILE_NAME

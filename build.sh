@@ -22,7 +22,7 @@ else
 fi
 
 mkdir -p $PACKAGES_DIR
-docker run -it -w /root --rm --name $BASE_IMAGE.build.$IMAGE_VERSION \
+docker run -w /root --rm --name $BASE_IMAGE.build.$IMAGE_VERSION \
     --mount type=bind,src=$PACKAGES_DIR,dst=/root/packages \
     --mount type=bind,src=$PWD/$BASE_IMAGE,dst=/root/$BASE_IMAGE,readonly \
     $IMAGE_NAME $BASE_IMAGE/build.sh $DCORE_VERSION $GIT_REV $BUILD_TYPE
