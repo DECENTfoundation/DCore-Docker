@@ -3,8 +3,8 @@ FROM fedora:$IMAGE_VERSION
 LABEL maintainer="DECENT"
 
 # register Bintray repository
-RUN curl https://bintray.com/user/downloadSubjectPublicKey?username=decentfoundation -o /etc/pki/rpm-gpg/RPM-GPG-KEY-decentfoundation && \
-    curl https://docs.decent.ch/assets/bintray-decentfoundation.repo -o /etc/yum.repos.d/bintray-decentfoundation.repo
+RUN curl https://bintray.com/user/downloadSubjectPublicKey?username=decentfoundation -o /etc/pki/rpm-gpg/RPM-GPG-KEY-decentfoundation
+COPY bintray-decentfoundation.repo /etc/yum.repos.d/bintray-decentfoundation.repo
 
 # prerequisites
 RUN dnf install -y \
