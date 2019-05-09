@@ -5,6 +5,7 @@
 PBC_VERSION=$1
 if [ $# -lt 2 ]; then GIT_REV=$PBC_VERSION; else GIT_REV=$2; fi
 
+set -e
 . /etc/os-release
 
 echo "Building PBC $PBC_VERSION (git revision $GIT_REV) for $PRETTY_NAME"
@@ -32,7 +33,6 @@ cd pbc
 ./setup
 ./configure --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu
 make install
-rm -rf pbc-$PBC_VERSION pbc-$PBC_VERSION.tar.gz
 
 cd ..
 mkdir -p libpbc/usr/lib/x86_64-linux-gnu

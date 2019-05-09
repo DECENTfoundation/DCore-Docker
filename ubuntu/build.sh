@@ -6,6 +6,7 @@ DCORE_VERSION=$1
 if [ $# -lt 2 ]; then GIT_REV=$DCORE_VERSION; else GIT_REV=$2; fi
 if [ $# -lt 3 ]; then BUILD_TYPE="Release"; else BUILD_TYPE=$3; fi
 
+set -e
 . /etc/os-release
 
 BASEDIR=$(dirname "$0")
