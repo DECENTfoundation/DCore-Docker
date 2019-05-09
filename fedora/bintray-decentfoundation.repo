@@ -1,4 +1,4 @@
-[bintraybintray-decentfoundation-fedora]
+[bintray-decentfoundation-fedora]
 name=DECENT Foundation
 baseurl=https://dl.bintray.com/decentfoundation/fedora/$releasever/$basearch
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-decentfoundation
