@@ -35,7 +35,7 @@ git clone --single-branch --branch %{git_revision} https://github.com/DECENTfoun
 cd pbc
 ./setup
 ./configure --prefix=%{buildroot}/usr --libdir=%{buildroot}%{_libdir}
-make
+make -j$(nproc)
 
 %install
 cd pbc

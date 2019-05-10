@@ -32,7 +32,7 @@ cd pbc
 
 ./setup
 ./configure --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu
-make install
+make -j$(nproc) install
 
 cd ..
 mkdir -p libpbc/usr/lib/x86_64-linux-gnu
