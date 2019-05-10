@@ -10,7 +10,7 @@ if [ $# -lt 4 ]; then GIT_REV=$DCORE_VERSION; else GIT_REV=$4; fi
 
 if [ $# -lt 5 ]; then BUILD_TYPE="Release"; else BUILD_TYPE=$5; fi
 
-if [ $# -lt 6 ]; then PACKAGES_DIR="$PWD/packages/$BASE_IMAGE/$IMAGE_VERSION"; else PACKAGES_DIR=$6; fi
+if [ $# -lt 6 ]; then PACKAGES_DIR="$PWD/packages"; else PACKAGES_DIR=$6; fi
 
 IMAGE_NAME=dcore.$BASE_IMAGE.build:$IMAGE_VERSION
 IMAGE_HASH=`docker images -q $IMAGE_NAME`
@@ -21,8 +21,9 @@ else
     echo "Using existing $IMAGE_NAME image $IMAGE_HASH"
 fi
 
-mkdir -p $PACKAGES_DIR
+PACKAGES_PATH=$PACKAGES_DIR/$BASE_IMAGE/$IMAGE_VERSION
+mkdir -p $PACKAGES_PATH
 docker run -w /root --rm --name $BASE_IMAGE.build.$IMAGE_VERSION \
-    --mount type=bind,src=$PACKAGES_DIR,dst=/root/packages \
+    --mount type=bind,src=$PACKAGES_PATH,dst=/root/packages \
     --mount type=bind,src=$PWD/$BASE_IMAGE,dst=/root/$BASE_IMAGE,readonly \
     $IMAGE_NAME $BASE_IMAGE/build.sh $DCORE_VERSION $GIT_REV $BUILD_TYPE
