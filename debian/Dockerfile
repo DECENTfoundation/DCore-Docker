@@ -12,6 +12,7 @@ RUN . /etc/os-release && \
        libssl1.0.0 \
        libcurl3 \
        curl \
+       gnupg \
        apt-transport-https \
        ca-certificates; \
     else apt-get install -y --no-install-recommends \
@@ -20,6 +21,7 @@ RUN . /etc/os-release && \
        libssl1.0.2 \
        libcurl3 \
        curl \
+       gnupg \
        apt-transport-https \
        ca-certificates; \
     fi && \
