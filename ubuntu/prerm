@@ -1,4 +1,6 @@
 #!/bin/sh
-if [ "$(pidof systemd)" ]; then
-   systemctl --no-reload disable --now DCore &>/dev/null
+
+if [ -d /run/systemd/system ] && [ "$1" = remove ]; then
+   debsystemctl=$(command -v deb-systemd-invoke || echo systemctl)
+   $debsystemctl stop DCore >/dev/null || true
 fi
