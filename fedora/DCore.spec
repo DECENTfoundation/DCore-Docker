@@ -61,6 +61,9 @@ rm -rf %{buildroot}
 
 %post
 %systemd_post %{name}.service
+if [ $1 -eq 1 ] && [ -x %{_bindir}/systemctl ]; then
+    %{_bindir}/systemctl enable %{name} >/dev/null || :
+fi
 
 %preun
 %systemd_preun %{name}.service
