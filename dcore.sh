@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ $# -lt 2 ] && { echo "Usage: $0 image_name data_dir [container_user [container_home]]"; exit 1; }
+[ $# -lt 2 ] && { echo "Usage: $0 image_name data_dir [container_user] [container_home]"; exit 1; }
 
 if [ $# -lt 3 ]; then CONTAINER_USER=dcore; else CONTAINER_USER=$3; fi
 

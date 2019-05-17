@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ $# -lt 3 ] && { echo "Usage: $0 image_name data_dir genesis_json [container_user [container_home]]"; exit 1; }
+[ $# -lt 3 ] && { echo "Usage: $0 image_name data_dir genesis_json [container_user] [container_home]"; exit 1; }
 
 if [ $# -lt 4 ]; then CONTAINER_USER=dcore; else CONTAINER_USER=$4; fi
 

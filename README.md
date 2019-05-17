@@ -32,32 +32,34 @@ To run the node as root user set the container environment variables:
 | DCORE_USER | dcore |
 
 You can use helper scripts to run the node or wallet:
-* `dcore.sh` - run the mainnet node
-> Usage: ./dcore.sh image_name data_dir [container_path]
-* `dcore_custom_net.sh` - run node on custom net
-> Usage: ./dcore_custom_net.sh image_name data_dir genesis_json [container_path]
-* `cli_wallet.sh` - start CLI wallet and attach to running node
-> Usage: ./cli_wallet.sh wallet_file [container_name]
 
-Examples:
+`dcore.sh` - run the mainnet node
 
-    # run node on mainnet
-    ./dcore.sh dcore.ubuntu:1.4.0 /path/to/data
+    Usage: ./dcore.sh image_name data_dir [container_user] [container_home]
 
-    # run node on custom configuration
-    ./dcore_custom_net.sh dcore.ubuntu:1.4.0 /path/to/data /path/to/genesis.json
+    ./dcore.sh dcore.ubuntu:1.4.0 $HOME/.decent/data
 
-    # run wallet
-    ./cli_wallet.sh /path/to/wallet.json
+`dcore_custom_net.sh` - run node on custom net
 
-    # stop node
+    Usage: ./dcore_custom_net.sh image_name data_dir genesis_json [container_user] [container_home]
+
+    ./dcore_custom_net.sh dcore.ubuntu:1.4.0 $HOME/.decent/data $HOME/.decent/genesis.json
+
+`cli_wallet.sh` - start CLI wallet and attach to running node
+
+    Usage: ./cli_wallet.sh wallet_file [container_name]
+
+    ./cli_wallet.sh $HOME/.decent/wallet.json
+
+To stop running node:
+
     docker stop DCore
 
 ## DCore build
 
 Because build is specific for each platform, there is a helper script to make life easier. It requires three mandatory arguments (base OS image name and version, DCore version) and three optional arguments (git revision tag - defaults to DCore version if not specified, build type - defaults to Release, packages directory - defaults to packages subdirectory).
 
-> Usage: ./build.sh base_image image_version dcore_version [git_revision] [build_type] [packages_dir]
+    Usage: ./build.sh base_image image_version dcore_version [git_revision] [build_type] [packages_dir]
 
 ### Ubuntu (latest, 19.04, 18.04, 16.04)
 
