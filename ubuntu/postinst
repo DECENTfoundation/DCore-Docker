@@ -1,11 +1,11 @@
 #!/bin/sh
 
 if [ -d /run/systemd/system ] && [ "$1" = "configure" ]; then
+   systemctl --system daemon-reload >/dev/null || true
    if [ -n "$2" ]; then
       debsystemctl=$(command -v deb-systemd-invoke || echo systemctl)
       $debsystemctl try-restart DCore >/dev/null || true
    else
-      systemctl --system daemon-reload >/dev/null || true
       deb-systemd-helper enable DCore >/dev/null || true
    fi
 fi
