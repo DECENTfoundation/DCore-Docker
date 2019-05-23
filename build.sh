@@ -16,7 +16,7 @@ IMAGE_NAME=dcore.$BASE_IMAGE.build:$IMAGE_VERSION
 IMAGE_HASH=`docker images -q $IMAGE_NAME`
 if [ -z $IMAGE_HASH ]; then
     echo "Building $IMAGE_NAME"
-    docker build -t $IMAGE_NAME -f $BASE_IMAGE/Dockerfile.build --build-arg IMAGE_VERSION=$IMAGE_VERSION $BASE_IMAGE
+    docker build -t $IMAGE_NAME -f $BASE_IMAGE/Dockerfile.build --pull --build-arg IMAGE_VERSION=$IMAGE_VERSION $BASE_IMAGE
 else
     echo "Using existing $IMAGE_NAME image $IMAGE_HASH"
 fi
