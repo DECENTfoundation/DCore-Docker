@@ -92,10 +92,10 @@ To create rpm packages and OS build image:
     # the latest OS image
     ./build.sh fedora latest 1.4.0
     # or specific OS version
-    ./build.sh fedora 29 1.4.0
+    ./build.sh fedora 30 1.4.0
     ls packages
-    # DCore-1.4.0-1.fc29.x86_64.rpm
-    # DCore-GUI-1.4.0-1.fc29.x86_64.rpm
+    # DCore-1.4.0-1.fc30.x86_64.rpm
+    # DCore-GUI-1.4.0-1.fc30.x86_64.rpm
 
 Naming convention for images: use `dcore.` prefix, then append base image name and `.build` suffix, e.g. `dcore.ubuntu.build`.
 
@@ -105,7 +105,7 @@ Naming convention for images: use `dcore.` prefix, then append base image name a
 
 Examples:
 
-    # the latest Ubuntu image
+    # the latest (18.04) Ubuntu image
     docker build -t dcore.ubuntu.build -f ubuntu/Dockerfile.build ubuntu
 
     # Ubuntu 18.04 image
@@ -114,8 +114,8 @@ Examples:
     # Debian 9 image
     docker build -t dcore.debian.build:9 -f debian/Dockerfile.build --build-arg IMAGE_VERSION=9 debian
 
-    # Fedora 29 image
-    docker build -t dcore.fedora.build:29 -f fedora/Dockerfile.build --build-arg IMAGE_VERSION=29 fedora
+    # Fedora 30 image
+    docker build -t dcore.fedora.build:30 -f fedora/Dockerfile.build --build-arg IMAGE_VERSION=30 fedora
 
 ## DCore runtime image
 
@@ -130,17 +130,17 @@ Naming convention for images: `dcore.` prefix and append base image name, e.g. `
 | DCORE_VERSION | - |
 | IMAGE_VERSION | latest |
 
-    # the latest Ubuntu OS image
-    docker build -t dcore.ubuntu:1.4.0 -f ubuntu/Dockerfile --build-arg DCORE_VERSION=1.4.0 packages
+    # the latest (18.04) Ubuntu OS image
+    docker build -t dcore.ubuntu:1.4.0 -f ubuntu/Dockerfile --build-arg DCORE_VERSION=1.4.0 packages/ubuntu/18.04
 
     # specific Ubuntu OS version
-    docker build -t dcore.ubuntu:1.4.0 -f ubuntu/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=18.04 packages
+    docker build -t dcore.ubuntu:1.4.0 -f ubuntu/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=18.04 packages/ubuntu/18.04
 
     # specific Debian OS version
-    docker build -t dcore.debian:1.4.0 -f debian/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=9 packages
+    docker build -t dcore.debian:1.4.0 -f debian/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=9 packages/debian/9
 
     # specific Fedora OS version
-    docker build -t dcore.fedora:1.4.0 -f fedora/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=29 packages
+    docker build -t dcore.fedora:1.4.0 -f fedora/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=30 packages/fedora/30
 
 ## DCore custom build
 
