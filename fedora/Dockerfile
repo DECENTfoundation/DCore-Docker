@@ -6,15 +6,13 @@ LABEL maintainer="DECENT"
 RUN curl https://bintray.com/user/downloadSubjectPublicKey?username=decentfoundation -o /etc/pki/rpm-gpg/RPM-GPG-KEY-decentfoundation
 COPY bintray-decentfoundation.repo /etc/yum.repos.d/bintray-decentfoundation.repo
 
-# prerequisites
-RUN dnf install -y cryptopp libpbc less procps && dnf clean all
-
 # DCore
 ARG DCORE_VERSION
 COPY DCore-$DCORE_VERSION-1.fc*.rpm /tmp/
 RUN export FEDORA=`rpm -E "%{fedora}"` && \
     export ARCH=`rpm -E "%{_arch}"` && \
-    rpm -i /tmp/DCore-$DCORE_VERSION-1.fc$FEDORA.$ARCH.rpm && \
+    dnf install -y /tmp/DCore-$DCORE_VERSION-1.fc$FEDORA.$ARCH.rpm && \
+    dnf clean all && \
     rm /tmp/DCore-$DCORE_VERSION-1.fc*.rpm
 
 EXPOSE 40000 8090

@@ -2,46 +2,19 @@ ARG IMAGE_VERSION=latest
 FROM ubuntu:$IMAGE_VERSION
 LABEL maintainer="DECENT"
 
-# prerequisites
+# register Bintray repository
 RUN . /etc/os-release && apt-get update && \
-    if [ "$VERSION_ID" \< "18.04" ]; then apt-get install -y --no-install-recommends \
-       libreadline6 \
-       libcrypto++9v5 \
-       libssl1.0.0 \
-       libcurl3 \
-       curl \
-       apt-transport-https \
-       ca-certificates; \
-    elif [ "$VERSION_ID" \< "19.04" ]; then apt-get install -y --no-install-recommends \
-       libreadline7 \
-       libcrypto++6 \
-       libssl1.1 \
-       libcurl4 \
-       curl \
-       gnupg \
-       apt-transport-https \
-       ca-certificates; \
-    else apt-get install -y --no-install-recommends \
-       libreadline8 \
-       libcrypto++6 \
-       libssl1.1 \
-       libcurl4 \
-       curl \
-       gnupg \
-       apt-transport-https \
-       ca-certificates; \
-    fi && \
+    apt-get install -y --no-install-recommends apt-transport-https ca-certificates gnupg curl && \
     curl https://bintray.com/user/downloadSubjectPublicKey?username=decentfoundation | apt-key add - && \
     echo "deb https://dl.bintray.com/decentfoundation/ubuntu $VERSION_CODENAME libpbc" | tee -a /etc/apt/sources.list && \
-    apt-get update && apt-get install -y --no-install-recommends less libpbc && \
     apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # DCore
 ARG DCORE_VERSION
 COPY dcore_${DCORE_VERSION}-*.deb /tmp/
 RUN . /etc/os-release && export ARCH=`dpkg --print-architecture` && \
-    dpkg -i /tmp/dcore_$DCORE_VERSION-${ID}${VERSION_ID}_${ARCH}.deb && \
-    rm /tmp/dcore_${DCORE_VERSION}-*.deb
+    apt-get update && apt-get install -y /tmp/dcore_$DCORE_VERSION-${ID}${VERSION_ID}_${ARCH}.deb && \
+    apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 40000 8090
 

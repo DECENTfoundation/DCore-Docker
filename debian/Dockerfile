@@ -2,40 +2,21 @@ ARG IMAGE_VERSION=latest
 FROM debian:$IMAGE_VERSION
 LABEL maintainer="DECENT"
 
-# prerequisites
+# register Bintray repository
 RUN . /etc/os-release && \
     DIST=$(echo $VERSION | sed 's/[0-9]\+ (\(.*\))/\1/') && \
     apt-get update && \
-    if [ $VERSION_ID -lt 9 ]; then apt-get install -y --no-install-recommends \
-       libreadline6 \
-       libcrypto++9 \
-       libssl1.0.0 \
-       libcurl3 \
-       curl \
-       gnupg \
-       apt-transport-https \
-       ca-certificates; \
-    else apt-get install -y --no-install-recommends \
-       libreadline7 \
-       libcrypto++6 \
-       libssl1.0.2 \
-       libcurl3 \
-       curl \
-       gnupg \
-       apt-transport-https \
-       ca-certificates; \
-    fi && \
+    apt-get install -y --no-install-recommends apt-transport-https ca-certificates gnupg curl && \
     curl https://bintray.com/user/downloadSubjectPublicKey?username=decentfoundation | apt-key add - && \
     echo "deb https://dl.bintray.com/decentfoundation/debian $DIST libpbc" | tee -a /etc/apt/sources.list && \
-    apt-get update && apt-get install -y --no-install-recommends less libpbc && \
     apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # DCore
 ARG DCORE_VERSION
 COPY dcore_${DCORE_VERSION}-*.deb /tmp/
 RUN . /etc/os-release && export ARCH=`dpkg --print-architecture` && \
-    dpkg -i /tmp/dcore_$DCORE_VERSION-${ID}${VERSION_ID}_${ARCH}.deb && \
-    rm /tmp/dcore_${DCORE_VERSION}-*.deb
+    apt-get update && apt-get install -y /tmp/dcore_$DCORE_VERSION-${ID}${VERSION_ID}_${ARCH}.deb && \
+    apt-get clean && apt-get autoremove && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 40000 8090
 
