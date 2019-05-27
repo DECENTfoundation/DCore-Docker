@@ -2,6 +2,7 @@
 
 [ $# -lt 2 ] && { echo "Usage: $0 image_version pbc_version [git_revision] [packages_dir]"; exit 1; }
 
+set -e
 PBC_VERSION=$2
 BASE_IMAGE=centos
 

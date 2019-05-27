@@ -2,6 +2,7 @@
 
 [ $# -lt 3 ] && { echo "Usage: $0 deb_file gpg_key_id base_image [image_version] [gnupg_dir]"; exit 1; }
 
+set -e
 DEB_FILE=$1
 GPG_KEY_ID=$2
 BASE_IMAGE=$3

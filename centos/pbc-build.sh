@@ -2,6 +2,7 @@
 
 [ $# -lt 1 ] && { echo "Usage: $0 pbc_version [git_revision]"; exit 1; }
 
+set -e
 PBC_VERSION=$1
 if [ $# -lt 2 ]; then GIT_REV=$PBC_VERSION; else GIT_REV=$2; fi
 

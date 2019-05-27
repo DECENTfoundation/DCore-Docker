@@ -2,6 +2,7 @@
 
 [ $# -lt 3 ] && { echo "Usage: $0 base_image image_version dcore_version [git_revision] [build_type] [packages_dir]"; exit 1; }
 
+set -e
 BASE_IMAGE=$1
 IMAGE_VERSION=$2
 DCORE_VERSION=$3
