@@ -24,7 +24,7 @@ RUN useradd --home-dir $DCORE_HOME --create-home $DCORE_USER
 
 USER $DCORE_USER
 WORKDIR $DCORE_HOME
-RUN mkdir $DCORE_HOME/.decent
+RUN mkdir -p $DCORE_HOME/.decent/data
 
 EXPOSE 40000 8090
 ENTRYPOINT ["decentd", "--rpc-endpoint", "0.0.0.0:8090"]
