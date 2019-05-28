@@ -8,9 +8,9 @@ if [ $# -lt 4 ]; then CONTAINER_HOME=/home/$CONTAINER_USER; else CONTAINER_HOME=
 
 if [ $# -lt 3 ]; then
     docker run -d --rm --name DCore -p 8090:8090 -p 40000:40000 \
-        --mount type=bind,src=$2,dst=$CONTAINER_HOME/.decent/data $1
+        --mount type=bind,src=$2,dst=$CONTAINER_HOME/.decent/data/decentd $1
 else
     docker run -d --rm --name DCore -p 8090:8090 -p 40000:40000 \
-        --mount type=bind,src=$2,dst=$CONTAINER_HOME/.decent/data \
+        --mount type=bind,src=$2,dst=$CONTAINER_HOME/.decent/data/decentd \
         -e "DCORE_USER=$CONTAINER_USER" -e "DCORE_HOME=$CONTAINER_HOME" $1
 fi

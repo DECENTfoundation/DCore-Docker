@@ -10,13 +10,13 @@ GENESIS_JSON_PATH=$CONTAINER_HOME/.decent/genesis.json
 
 if [ $# -lt 4 ]; then
     docker run -d --rm --name DCore -p 8090:8090 -p 40000:40000 \
-        --mount type=bind,src=$2,dst=$CONTAINER_HOME/.decent/data \
+        --mount type=bind,src=$2,dst=$CONTAINER_HOME/.decent/data/decentd \
         --mount type=bind,src=$3,dst=$GENESIS_JSON_PATH,readonly \
-        -e "DCORE_EXTRA_ARGS=--genesis-json $GENESIS_JSON_PATH" $1
+        $1 --genesis-json $GENESIS_JSON_PATH
 else
     docker run -d --rm --name DCore -p 8090:8090 -p 40000:40000 \
-        --mount type=bind,src=$2,dst=$CONTAINER_HOME/.decent/data \
+        --mount type=bind,src=$2,dst=$CONTAINER_HOME/.decent/data/decentd \
         --mount type=bind,src=$3,dst=$GENESIS_JSON_PATH,readonly \
-        -e "DCORE_EXTRA_ARGS=--genesis-json $GENESIS_JSON_PATH" \
-        -e "DCORE_USER=$CONTAINER_USER" -e "DCORE_HOME=$CONTAINER_HOME" $1
+        -e "DCORE_USER=$CONTAINER_USER" -e "DCORE_HOME=$CONTAINER_HOME" \
+        $1 --genesis-json $GENESIS_JSON_PATH
 fi

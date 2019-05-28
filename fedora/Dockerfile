@@ -15,8 +15,6 @@ RUN export FEDORA=`rpm -E "%{fedora}"` && \
     dnf clean all && \
     rm /tmp/DCore-$DCORE_VERSION-1.fc*.rpm
 
-EXPOSE 40000 8090
-
 ENV DCORE_USER=dcore
 ENV DCORE_HOME=/home/dcore
 RUN if [ $DCORE_USER != "root" ]; then useradd --home-dir $DCORE_HOME --create-home $DCORE_USER; fi
@@ -25,6 +23,5 @@ USER $DCORE_USER
 WORKDIR $DCORE_HOME
 RUN mkdir $DCORE_HOME/.decent
 
-ENV DCORE_EXTRA_ARGS=""
-ENV DCORE_DATA_DIR=$DCORE_HOME"/.decent/data"
-CMD decentd -d $DCORE_DATA_DIR --rpc-endpoint 0.0.0.0:8090 $DCORE_EXTRA_ARGS
+EXPOSE 40000 8090
+ENTRYPOINT ["decentd", "--rpc-endpoint", "0.0.0.0:8090"]
