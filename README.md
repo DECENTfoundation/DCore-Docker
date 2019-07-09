@@ -148,13 +148,15 @@ It is also possible to build DCore on custom OS image which satisfy all required
 
 | Build argument | Default value |
 | --------------- | ------------- |
+| BUILD_IMAGE | - |
 | BASE_IMAGE | - |
 | GIT_REV | master |
+| BUILD_TYPE | Release |
 
 Examples:
 
     # the latest DCore version
-    docker build -t dcore.custom -f Dockerfile.dcore --build-arg BASE_IMAGE=custom .
+    docker build -t dcore.custom -f Dockerfile.dcore --build-arg BUILD_IMAGE=custom --build-arg BASE_IMAGE=ubuntu .
 
     # specific DCore release
-    docker build -t dcore.custom:1.4.0 -f Dockerfile.dcore --build-arg BASE_IMAGE=custom --build-arg GIT_REV=1.4.0 .
+    docker build -t dcore.custom:1.4.0 -f Dockerfile.dcore --build-arg BUILD_IMAGE=custom --build-arg BASE_IMAGE=ubuntu --build-arg GIT_REV=1.4.0 .
