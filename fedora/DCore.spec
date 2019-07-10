@@ -54,7 +54,7 @@ rm -rf %{buildroot}
 %files
 %{_bindir}/cli_wallet
 %{_bindir}/decentd
-%{_unitdir}/DCore.service
+%{_unitdir}/%{name}.service
 
 %files GUI
 %{_bindir}/DECENT

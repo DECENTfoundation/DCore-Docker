@@ -1,6 +1,6 @@
 #!/bin/sh
 
 if [ -d /run/systemd/system ] && [ "$1" = remove ]; then
-   debsystemctl=$(command -v deb-systemd-invoke || echo systemctl)
-   $debsystemctl stop DCore >/dev/null || true
+   systemctl stop DCore || true
+   systemctl disable DCore || true
 fi

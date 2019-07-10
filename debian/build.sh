@@ -76,6 +76,7 @@ echo " decentralized applications for real-world use cases. DCore is packed-full
 echo " customizable features making it the ideal blockchain for any size project." >> dcore-gui/DEBIAN/control
 
 cp $BASEDIR/postinst dcore-node/DEBIAN
+cp $BASEDIR/postrm dcore-node/DEBIAN
 cp $BASEDIR/prerm dcore-node/DEBIAN
 
 # build the deb packages
