@@ -12,9 +12,13 @@ set -e
 BASEDIR=$(dirname "$0")
 echo "Building DCore $DCORE_VERSION (git revision $GIT_REV) for $PRETTY_NAME"
 
-# custom Boost and CMake if on Ubuntu 16.04
-if [[ $VERSION_ID = "16.04" ]]; then
+# custom Boost on Ubuntu 16.04
+if [ $VERSION_ID = "16.04" ]; then
    export BOOST_ROOT=/root/boost
+fi
+
+# custom CMake on Ubuntu prior to 19.04
+if [ "$VERSION_ID" \< "19.04" ]; then
    export PATH=/root/cmake/bin:$PATH
 fi
 
