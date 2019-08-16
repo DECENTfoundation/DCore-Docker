@@ -12,9 +12,11 @@ set -e
 BASEDIR=$(dirname "$0")
 echo "Building DCore $DCORE_VERSION (git revision $GIT_REV) for $PRETTY_NAME"
 
-# custom Boost and CMake
-export BOOST_ROOT=/root/boost
-export PATH=/root/cmake/bin:$PATH
+# custom Boost and CMake on Debian prior to 10
+if [ $VERSION_ID -lt 10 ]; then
+   export BOOST_ROOT=/root/boost
+   export PATH=/root/cmake/bin:$PATH
+fi
 
 # build DCore
 git clone --single-branch --branch $GIT_REV https://github.com/DECENTfoundation/DECENT-Network.git
