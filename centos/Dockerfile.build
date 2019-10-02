@@ -2,12 +2,14 @@ ARG IMAGE_VERSION=latest
 FROM centos:$IMAGE_VERSION
 LABEL maintainer="DECENT"
 
+# register Bintray repository
+RUN curl https://bintray.com/user/downloadSubjectPublicKey?username=decentfoundation -o /etc/pki/rpm-gpg/RPM-GPG-KEY-decentfoundation
+COPY bintray-decentfoundation.repo /etc/yum.repos.d/bintray-decentfoundation.repo
+
 # prerequisites
-RUN yum install -y wget && \
-    wget -nv -P /tmp http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-    rpm -ivh /tmp/epel-release-latest-7.noarch.rpm && \
-    rm /tmp/epel-release-latest-7.noarch.rpm && \
-    yum install -y \
+RUN export CENTOS=`rpm -E "%{centos}"` && \
+    dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-$CENTOS.noarch.rpm && \
+    dnf install -y --enablerepo PowerTools \
        automake \
        autoconf \
        libtool \
@@ -15,11 +17,8 @@ RUN yum install -y wget && \
        cmake \
        gcc-c++ \
        chrpath \
-       flex \
-       bison \
        doxygen \
        which \
-       wget \
        git \
        qt5-qtbase-devel \
        qt5-linguist \
@@ -29,26 +28,27 @@ RUN yum install -y wget && \
        rpmdevtools \
        readline-devel \
        cryptopp-devel \
-       gmp-devel \
        openssl-devel \
+       gmp-devel \
+       libpbc-devel \
        libcurl-devel \
        json-devel \
-       boost-devel \
+       zlib-devel \
+       python3-devel \
+       boost-python3-devel \
        boost-static && \
-    yum clean all
+    dnf clean all
 
 # prepare directories
 USER root
 WORKDIR /root
-RUN rpmdev-setuptree && export ARCH=`rpm -E "%{_arch}"` && mkdir rpmbuild/RPMS/$ARCH && ln -s rpmbuild/RPMS/$ARCH /root/packages
-
-# PBC
-ARG PBC_VERSION=0.5.14
-ARG PBC_GIT_REV=0.5.14
-COPY libpbc.spec rpmbuild/SPECS
-RUN export ARCH=`rpm -E "%{_arch}"` && \
-    rpmbuild -bb -D "pbc_version $PBC_VERSION" -D "git_revision $PBC_GIT_REV" --rmspec rpmbuild/SPECS/libpbc.spec && \
-    rpm -i rpmbuild/RPMS/$ARCH/libpbc* && \
-    rm rpmbuild/RPMS/$ARCH/libpbc*
+RUN curl -O https://cmake.org/files/v3.13/cmake-3.13.4.tar.gz && \
+    tar xf cmake-3.13.4.tar.gz && \
+    cd cmake-3.13.4 && \
+    ./configure --prefix=../cmake && \
+    make -j$(nproc) install && \
+    cd .. && \
+    rm -rf cmake-3.13.4* && \
+    rpmdev-setuptree && export ARCH=`rpm -E "%{_arch}"` && mkdir rpmbuild/RPMS/$ARCH && ln -s rpmbuild/RPMS/$ARCH /root/packages
 
 CMD ["/bin/bash"]
