@@ -1,9 +1,10 @@
 #!/bin/bash
 
-[ $# -lt 1 ] && { echo "Usage: $0 pbc_version [git_revision]"; exit 1; }
+[ $# -lt 2 ] && { echo "Usage: $0 pbc_version gpg_key_id [git_revision]"; exit 1; }
 
 PBC_VERSION=$1
-if [ $# -lt 2 ]; then GIT_REV=$PBC_VERSION; else GIT_REV=$2; fi
+GPG_KEY_ID=$2
+if [ $# -lt 3 ]; then GIT_REV=$PBC_VERSION; else GIT_REV=$3; fi
 
 set -e
 . /etc/os-release
@@ -24,6 +25,7 @@ apt-get install -y --no-install-recommends \
     bison \
     git \
     libgmp-dev \
+    dpkg-sig \
     ca-certificates
 
 # build PBC
@@ -85,6 +87,12 @@ echo " elliptic curve generation, elliptic curve arithmetic and pairing computat
 
 dpkg-deb --build libpbc packages
 dpkg-deb --build libpbc-dev packages
+
+# Ubuntu 16.04 has old GNUPG
+if [ "$VERSION_ID" != "16.04" ]; then
+    dpkg-sig -s builder -k "$GPG_KEY_ID" packages/libpbc_${PBC_VERSION}_amd64.deb
+    dpkg-sig -s builder -k "$GPG_KEY_ID" packages/libpbc-dev_${PBC_VERSION}_amd64.deb
+fi
 
 mv packages/libpbc_${PBC_VERSION}_amd64.deb packages/libpbc_${PBC_VERSION}-ubuntu${VERSION_ID}_amd64.deb
 mv packages/libpbc-dev_${PBC_VERSION}_amd64.deb packages/libpbc-dev_${PBC_VERSION}-ubuntu${VERSION_ID}_amd64.deb
