@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ $# -lt 3 ] && { echo "Usage: $0 base_image image_version dcore_version [git_revision] [build_type] [packages_dir] [build_script]"; exit 1; }
+[ $# -lt 3 ] && { echo "Usage: $0 base_image image_version dcore_version [git_revision] [build_type] [packages_dir] [build_script] [ssh_dir]"; exit 1; }
 
 set -e
 BASE_IMAGE=$1
@@ -15,6 +15,8 @@ if [ $# -lt 6 ]; then PACKAGES_DIR="$PWD/packages"; else PACKAGES_DIR=$6; fi
 
 if [ $# -lt 7 ]; then BUILD_SCRIPT="build.sh"; else BUILD_SCRIPT=$7; fi
 
+if [ $# -lt 8 ]; then SSH_DIR="$HOME/.ssh"; else SSH_DIR=$8; fi
+
 IMAGE_NAME=dcore.$BASE_IMAGE.build:$IMAGE_VERSION
 IMAGE_HASH=`docker images -q $IMAGE_NAME`
 if [ -z $IMAGE_HASH ]; then
@@ -27,6 +29,7 @@ fi
 PACKAGES_PATH=$PACKAGES_DIR/$BASE_IMAGE/$IMAGE_VERSION
 mkdir -p $PACKAGES_PATH
 docker run -w /root --rm --name $BASE_IMAGE.build.$IMAGE_VERSION \
+    --mount type=bind,src=$SSH_DIR,dst=/root/.ssh \
     --mount type=bind,src=$PACKAGES_PATH,dst=/root/packages \
     --mount type=bind,src=$PWD/$BASE_IMAGE,dst=/root/$BASE_IMAGE,readonly \
     $IMAGE_NAME $BASE_IMAGE/$BUILD_SCRIPT $DCORE_VERSION $GIT_REV $BUILD_TYPE
