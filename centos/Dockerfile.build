@@ -42,7 +42,7 @@ RUN export CENTOS=`rpm -E "%{centos}"` && \
 # prepare directories
 USER root
 WORKDIR /root
-RUN curl -O https://cmake.org/files/v3.13/cmake-3.13.4.tar.gz && \
+RUN curl -LO https://cmake.org/files/v3.13/cmake-3.13.4.tar.gz && \
     tar xf cmake-3.13.4.tar.gz && \
     cd cmake-3.13.4 && \
     ./configure --prefix=../cmake && \

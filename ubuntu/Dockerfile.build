@@ -15,7 +15,7 @@ RUN . /etc/os-release && \
        g++ \
        curl \
        doxygen \
-       wget \
+       ssh \
        git \
        qt5-default \
        qttools5-dev \
@@ -40,7 +40,7 @@ USER root
 WORKDIR /root
 RUN . /etc/os-release && \
     if [ "$VERSION_ID" = "16.04" ]; then \
-       wget -nv https://sourceforge.net/projects/boost/files/boost/1.65.1/boost_1_65_1.tar.gz && \
+       curl -LO https://sourceforge.net/projects/boost/files/boost/1.65.1/boost_1_65_1.tar.gz && \
        tar xf boost_1_65_1.tar.gz && \
        cd boost_1_65_1 && \
        ./bootstrap.sh --prefix=../boost && \
@@ -49,7 +49,7 @@ RUN . /etc/os-release && \
        rm -rf boost_1_65_1*; \
     fi && \
     if [ "$VERSION_ID" \< "19.04" ]; then \
-       wget -nv https://cmake.org/files/v3.13/cmake-3.13.4.tar.gz && \
+       curl -LO https://cmake.org/files/v3.13/cmake-3.13.4.tar.gz && \
        tar xf cmake-3.13.4.tar.gz && \
        cd cmake-3.13.4 && \
        export CMAKE_ROOT=$(realpath ../cmake) && \
@@ -59,13 +59,13 @@ RUN . /etc/os-release && \
        cd .. && \
        rm -rf cmake-3.13.4*; \
     fi && \
-    wget -nv https://github.com/nlohmann/json/archive/v3.7.0.tar.gz && \
+    curl -LO https://github.com/nlohmann/json/archive/v3.7.0.tar.gz && \
     tar xf v3.7.0.tar.gz && \
     cd json-3.7.0 && \
     cmake . && \
     make -j$(nproc) install && \
     cd .. && \
-    rm -rf json-3.7.0* && \
+    rm -rf v3.7.0.tar.gz json-3.7.0* && \
     mkdir packages
 
 CMD ["/bin/bash"]
