@@ -4,6 +4,7 @@ LABEL maintainer="DECENT"
 
 # prerequisites
 RUN . /etc/os-release && \
+    apt-get update && apt-get install -y software-properties-common && add-apt-repository -y ppa:git-core/ppa && \
     apt-get update && apt-get install -y --no-install-recommends \
        build-essential \
        autotools-dev \
