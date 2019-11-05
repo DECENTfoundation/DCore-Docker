@@ -1,5 +1,5 @@
 Name: DCore-GUI
-URL: https://decent.ch
+URL: https://decent.ch/dcore
 Version: %{dcore_version}
 Release: 1%{?dist}
 License: GPLv3

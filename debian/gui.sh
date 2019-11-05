@@ -22,20 +22,16 @@ fi
 git clone --single-branch --branch $GIT_REV git@github.com:DECENTfoundation/DECENT-GUI.git
 cd DECENT-GUI
 git submodule update --init --recursive
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=../DCore .
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_INSTALL_PREFIX=../dcore-gui/usr .
 make -j$(nproc) install
 cd ..
 
-# copy the binary
-mkdir -p dcore-gui/usr/bin
-mkdir -p dcore-gui/DEBIAN
-cp DCore/bin/DECENT dcore-gui/usr/bin
-
 # generate the control file
+mkdir -p dcore-gui/DEBIAN
 echo "Package: DCore-GUI" > dcore-gui/DEBIAN/control
 echo "Version: $DCORE_VERSION" >> dcore-gui/DEBIAN/control
 echo "Maintainer: DECENT <support@decent.ch>" >> dcore-gui/DEBIAN/control
-echo "Homepage: https://decent.ch" >> dcore-gui/DEBIAN/control
+echo "Homepage: https://decent.ch/dcore" >> dcore-gui/DEBIAN/control
 echo "Source: https://github.com/DECENTfoundation/DECENT-GUI/archive/$DCORE_VERSION.tar.gz" >> dcore-gui/DEBIAN/control
 echo "Section: net" >> dcore-gui/DEBIAN/control
 echo "Priority: optional" >> dcore-gui/DEBIAN/control
