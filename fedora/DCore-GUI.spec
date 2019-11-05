@@ -27,7 +27,7 @@ make -j$(nproc) install
 
 %install
 mkdir -p %{buildroot}%{_bindir}
-strip $f -o %{buildroot}%{_bindir}/DECENT && chrpath -d %{buildroot}%{_bindir}/DECENT
+strip %{_builddir}/DCore/bin/DECENT -o %{buildroot}%{_bindir}/DECENT && chrpath -d %{buildroot}%{_bindir}/DECENT
 
 %clean
 rm -rf DECENT-GUI
