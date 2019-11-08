@@ -12,6 +12,7 @@ There are separate DCore images for each of the supported platforms.
 | Ubuntu | dcore.ubuntu |
 | Debian | dcore.debian |
 | Fedora | dcore.fedora |
+| CentOS | dcore.centos |
 
 DCore image exposes 2 ports: 8090 (websocket RPC to listen on) and 40000 (P2P node).
 You can mount an external data directory (to persist the blockchain) and genesis file (when using custom configuration) to the running container.
@@ -61,7 +62,7 @@ Because build is specific for each platform, there is a helper script to make li
 
     Usage: ./build.sh base_image image_version dcore_version [git_revision] [build_type] [packages_dir]
 
-### Ubuntu (latest, 19.04, 18.04, 16.04)
+### Ubuntu (latest, 19.04, 18.04)
 
 To create deb packages and OS build image:
 
@@ -71,31 +72,39 @@ To create deb packages and OS build image:
     ./build.sh ubuntu 18.04 1.4.0
     ls packages
     # dcore_1.4.0-ubuntu18.04_amd64.deb
-    # dcore-gui_1.4.0-ubuntu18.04_amd64.deb
 
-### Debian (latest, 9)
+### Debian (latest, 10)
 
 To create deb packages and OS build image:
 
     # the latest OS image
     ./build.sh debian latest 1.4.0
     # or specific OS version
-    ./build.sh debian 9 1.4.0
+    ./build.sh debian 10 1.4.0
     ls packages
-    # dcore_1.4.0-debian9_amd64.deb
-    # dcore-gui_1.4.0-debian9_amd64.deb
+    # dcore_1.4.0-debian10_amd64.deb
 
-### Fedora (latest, 30, 29)
+### Fedora (latest, 31, 30)
 
 To create rpm packages and OS build image:
 
     # the latest OS image
     ./build.sh fedora latest 1.4.0
     # or specific OS version
-    ./build.sh fedora 30 1.4.0
+    ./build.sh fedora 31 1.4.0
     ls packages
-    # DCore-1.4.0-1.fc30.x86_64.rpm
-    # DCore-GUI-1.4.0-1.fc30.x86_64.rpm
+    # DCore-1.4.0-1.fc31.x86_64.rpm
+
+### CentOS (latest, 8)
+
+To create rpm packages and OS build image:
+
+    # the latest OS image
+    ./build.sh centos latest 1.4.0
+    # or specific OS version
+    ./build.sh centos 8 1.4.0
+    ls packages
+    # DCore-1.4.0-1.el8.x86_64.rpm
 
 Naming convention for images: use `dcore.` prefix, then append base image name and `.build` suffix, e.g. `dcore.ubuntu.build`.
 
@@ -111,11 +120,14 @@ Examples:
     # Ubuntu 18.04 image
     docker build -t dcore.ubuntu.build:18.04 -f ubuntu/Dockerfile.build --build-arg IMAGE_VERSION=18.04 ubuntu
 
-    # Debian 9 image
-    docker build -t dcore.debian.build:9 -f debian/Dockerfile.build --build-arg IMAGE_VERSION=9 debian
+    # Debian 10 image
+    docker build -t dcore.debian.build:10 -f debian/Dockerfile.build --build-arg IMAGE_VERSION=10 debian
 
-    # Fedora 30 image
-    docker build -t dcore.fedora.build:30 -f fedora/Dockerfile.build --build-arg IMAGE_VERSION=30 fedora
+    # Fedora 31 image
+    docker build -t dcore.fedora.build:31 -f fedora/Dockerfile.build --build-arg IMAGE_VERSION=31 fedora
+
+    # CentOS 8 image
+    docker build -t dcore.centos.build:8 -f centos/Dockerfile.build --build-arg IMAGE_VERSION=8 centos
 
 ## DCore runtime image
 
@@ -137,10 +149,13 @@ Naming convention for images: `dcore.` prefix and append base image name, e.g. `
     docker build -t dcore.ubuntu:1.4.0 -f ubuntu/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=18.04 packages/ubuntu/18.04
 
     # specific Debian OS version
-    docker build -t dcore.debian:1.4.0 -f debian/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=9 packages/debian/9
+    docker build -t dcore.debian:1.4.0 -f debian/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=10 packages/debian/10
 
     # specific Fedora OS version
-    docker build -t dcore.fedora:1.4.0 -f fedora/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=30 packages/fedora/30
+    docker build -t dcore.fedora:1.4.0 -f fedora/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=31 packages/fedora/31
+
+    # specific CentOS OS version
+    docker build -t dcore.centos:1.4.0 -f centos/Dockerfile --build-arg DCORE_VERSION=1.4.0 --build-arg IMAGE_VERSION=8 packages/centos/8
 
 ## DCore custom build
 
