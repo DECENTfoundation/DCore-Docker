@@ -60,13 +60,13 @@ RUN . /etc/os-release && \
        cd .. && \
        rm -rf cmake-3.13.4*; \
     fi && \
-    curl -LO https://github.com/nlohmann/json/archive/v3.7.0.tar.gz && \
-    tar xf v3.7.0.tar.gz && \
-    cd json-3.7.0 && \
+    curl -LO https://github.com/nlohmann/json/archive/v3.7.2.tar.gz && \
+    tar xf v3.7.2.tar.gz && \
+    cd json-3.7.2 && \
     cmake . && \
     make -j$(nproc) install && \
     cd .. && \
-    rm -rf v3.7.0.tar.gz json-3.7.0* && \
+    rm -rf v3.7.2.tar.gz json-3.7.2* && \
     mkdir packages
 
 CMD ["/bin/bash"]
