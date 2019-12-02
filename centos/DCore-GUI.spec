@@ -15,6 +15,10 @@ software development kits (SDKs) that empower developers and businesses to build
 decentralized applications for real-world use cases. DCore is packed-full of
 customizable features making it the ideal blockchain for any size project.
 
+%if "%{build_type}" == "RelWithDebInfo" || "%{build_type}" == "Debug"
+%{debug_package}
+%endif
+
 %prep
 git clone --single-branch --branch %{git_revision} git@github.com:DECENTfoundation/DECENT-GUI.git
 cd DECENT-GUI
@@ -23,12 +27,12 @@ git submodule update --init --recursive
 %build
 cd DECENT-GUI
 export PATH=/root/cmake/bin:$PATH
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=%{build_type} -DCMAKE_INSTALL_PREFIX=%{_builddir}/DCore .
-make -j$(nproc) install
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=%{build_type} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_usr} .
+make -j$(nproc)
 
 %install
-mkdir -p %{buildroot}%{_bindir}
-strip %{_builddir}/DCore/bin/DECENT -o %{buildroot}%{_bindir}/DECENT && chrpath -d %{buildroot}%{_bindir}/DECENT
+cd DECENT-GUI *.list
+make -j$(nproc) install
 
 %clean
 rm -rf DECENT-GUI

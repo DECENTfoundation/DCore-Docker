@@ -15,6 +15,10 @@ software development kits (SDKs) that empower developers and businesses to build
 decentralized applications for real-world use cases. DCore is packed-full of
 customizable features making it the ideal blockchain for any size project.
 
+%if "%{build_type}" == "RelWithDebInfo" || "%{build_type}" == "Debug"
+%{debug_package}
+%endif
+
 %prep
 git clone --single-branch --branch %{git_revision} https://github.com/decent-dcore/DCore-Python.git
 cd DCore-Python
@@ -29,12 +33,9 @@ make -j$(nproc)
 %install
 cd DCore-Python
 make -j$(nproc) install
-for f in %{buildroot}%{python3_sitearch}/*.so; do
-    strip $f
-done
 
 %clean
-rm -rf DCore-Python
+rm -rf DCore-Python *.list
 rm -rf %{buildroot}
 
 %files

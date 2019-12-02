@@ -17,6 +17,10 @@ software development kits (SDKs) that empower developers and businesses to build
 decentralized applications for real-world use cases. DCore is packed-full of
 customizable features making it the ideal blockchain for any size project.
 
+%if "%{build_type}" == "RelWithDebInfo" || "%{build_type}" == "Debug"
+%{debug_package}
+%endif
+
 %prep
 git clone --single-branch --branch %{git_revision} https://github.com/DECENTfoundation/DECENT-Network.git
 cd DECENT-Network
@@ -24,19 +28,17 @@ git submodule update --init --recursive
 
 %build
 cd DECENT-Network
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=%{build_type} -DCMAKE_INSTALL_PREFIX=%{_builddir}/DCore .
-make -j$(nproc) install
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=%{build_type} -DCMAKE_INSTALL_PREFIX=%{buildroot}%{_usr} .
+make -j$(nproc)
 
 %install
-mkdir -p %{buildroot}%{_bindir}
+cd DECENT-Network
+make -j$(nproc) install
 mkdir -p %{buildroot}%{_unitdir}
 cp %{_builddir}/DECENT-Network/%{name}.service %{buildroot}%{_unitdir}
-for f in %{_builddir}/DCore/bin/*; do
-    strip $f -o %{buildroot}%{_bindir}/$(basename $f) && chrpath -d %{buildroot}%{_bindir}/$(basename $f)
-done
 
 %clean
-rm -rf DECENT-Network
+rm -rf DECENT-Network *.list
 rm -rf %{buildroot}
 
 %files
