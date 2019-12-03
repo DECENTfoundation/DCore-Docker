@@ -7,10 +7,6 @@ RUN . /etc/os-release && \
     DIST=$(echo $VERSION | sed 's/[0-9]\+ (\(.*\))/\1/') && \
     apt-get update && apt-get install -y --no-install-recommends \
        build-essential \
-       autotools-dev \
-       automake \
-       autoconf \
-       libtool \
        make \
        cmake \
        g++ \

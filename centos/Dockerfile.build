@@ -10,21 +10,15 @@ COPY bintray-decentfoundation.repo /etc/yum.repos.d/bintray-decentfoundation.rep
 RUN export CENTOS=`rpm -E "%{centos}"` && \
     dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-$CENTOS.noarch.rpm && \
     dnf install -y --enablerepo PowerTools \
-       automake \
-       autoconf \
-       libtool \
        make \
        cmake \
        gcc-c++ \
-       chrpath \
        doxygen \
-       which \
        git \
        qt5-qtbase-devel \
        qt5-linguist \
        rpm-build \
        rpm-sign \
-       rpmlint \
        rpmdevtools \
        readline-devel \
        cryptopp-devel \

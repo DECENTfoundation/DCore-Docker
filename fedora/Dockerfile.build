@@ -8,21 +8,15 @@ COPY bintray-decentfoundation.repo /etc/yum.repos.d/bintray-decentfoundation.rep
 
 # prerequisites
 RUN dnf install -y \
-       automake \
-       autoconf \
-       libtool \
        make \
        cmake \
        gcc-c++ \
-       chrpath \
        doxygen \
-       which \
        git \
        qt5-qtbase-devel \
        qt5-linguist \
        rpm-build \
        rpm-sign \
-       rpmlint \
        rpmdevtools \
        readline-devel \
        cryptopp-devel \
