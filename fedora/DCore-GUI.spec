@@ -32,6 +32,9 @@ make -j$(nproc)
 %install
 cd DECENT-GUI
 make -j$(nproc) install
+if [ "%{build_type}" != "RelWithDebInfo" ] && [ "%{build_type}" != "Debug" ]; then
+    strip %{buildroot}%{_bindir}/DECENT
+fi
 
 %clean
 rm -rf DECENT-GUI *.list

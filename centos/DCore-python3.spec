@@ -33,6 +33,9 @@ make -j$(nproc)
 %install
 cd DCore-Python
 make -j$(nproc) install
+if [ "%{build_type}" != "RelWithDebInfo" ] && [ "%{build_type}" != "Debug" ]; then
+    strip %{buildroot}%{python3_sitearch}/dcore.so
+fi
 
 %clean
 rm -rf DCore-Python *.list

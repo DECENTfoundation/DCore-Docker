@@ -34,6 +34,10 @@ make -j$(nproc)
 %install
 cd DECENT-Network
 make -j$(nproc) install
+if [ "%{build_type}" != "RelWithDebInfo" ] && [ "%{build_type}" != "Debug" ]; then
+    strip %{buildroot}%{_bindir}/cli_wallet
+    strip %{buildroot}%{_bindir}/decentd
+fi
 mkdir -p %{buildroot}%{_unitdir}
 cp %{_builddir}/DECENT-Network/%{name}.service %{buildroot}%{_unitdir}
 
