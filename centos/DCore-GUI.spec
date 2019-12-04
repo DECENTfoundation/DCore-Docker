@@ -31,14 +31,14 @@ cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=%{build_type} -DCMAKE_INSTALL_PREFI
 make -j$(nproc)
 
 %install
-cd DECENT-GUI *.list
+cd DECENT-GUI
 make -j$(nproc) install
 if [ "%{build_type}" != "RelWithDebInfo" ] && [ "%{build_type}" != "Debug" ]; then
     strip %{buildroot}%{_bindir}/DECENT
 fi
 
 %clean
-rm -rf DECENT-GUI
+rm -rf DECENT-GUI *.list
 rm -rf %{buildroot}
 
 %files
