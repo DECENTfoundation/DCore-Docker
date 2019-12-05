@@ -55,6 +55,11 @@ cp $BASEDIR/prerm dcore-node/DEBIAN
 mkdir -p dcore-node/etc/systemd/system
 cp DECENT-Network/DCore.service dcore-node/etc/systemd/system
 
+# enable core dump for debug configurations
+if [ $BUILD_TYPE = "RelWithDebInfo" ] || [ $BUILD_TYPE = "Debug" ]; then
+   crudini --set dcore-node/etc/systemd/system/DCore.service Service LimitCORE infinity
+fi
+
 # build the deb packages
 dpkg-deb --build dcore-node packages
 mv packages/dcore_${DCORE_VERSION}_amd64.deb packages/dcore_${DCORE_VERSION}-debian${VERSION_ID}_amd64.deb

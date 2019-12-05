@@ -13,6 +13,7 @@ RUN export CENTOS=`rpm -E "%{centos}"` && \
        make \
        cmake \
        gcc-c++ \
+       crudini \
        doxygen \
        git \
        qt5-qtbase-devel \

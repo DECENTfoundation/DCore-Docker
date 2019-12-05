@@ -11,6 +11,7 @@ RUN . /etc/os-release && \
        cmake \
        g++ \
        curl \
+       crudini \
        doxygen \
        ssh \
        git \

@@ -11,6 +11,7 @@ RUN dnf install -y \
        make \
        cmake \
        gcc-c++ \
+       crudini \
        doxygen \
        git \
        qt5-qtbase-devel \

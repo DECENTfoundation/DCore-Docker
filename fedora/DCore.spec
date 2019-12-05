@@ -34,12 +34,17 @@ make -j$(nproc)
 %install
 cd DECENT-Network
 make -j$(nproc) install
-if [ "%{build_type}" != "RelWithDebInfo" ] && [ "%{build_type}" != "Debug" ]; then
+
+mkdir -p %{buildroot}%{_unitdir}
+cp %{_builddir}/DECENT-Network/%{name}.service %{buildroot}%{_unitdir}
+
+# enable core dump for debug configurations
+if [ "%{build_type}" = "RelWithDebInfo" ] || [ "%{build_type}" = "Debug" ]; then
+    crudini --set %{buildroot}%{_unitdir}/%{name}.service Service LimitCORE infinity
+else
     strip %{buildroot}%{_bindir}/cli_wallet
     strip %{buildroot}%{_bindir}/decentd
 fi
-mkdir -p %{buildroot}%{_unitdir}
-cp %{_builddir}/DECENT-Network/%{name}.service %{buildroot}%{_unitdir}
 
 %clean
 rm -rf DECENT-Network *.list
