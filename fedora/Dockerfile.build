@@ -29,8 +29,7 @@ RUN dnf install -y \
        zlib-devel \
        python3-devel \
        boost-python3-devel \
-       boost-static && \
-    dnf clean all
+       boost-static
 
 # prepare directories
 USER root
